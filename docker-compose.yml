@@ -14,6 +14,19 @@ services:
     volumes:
       - ./data/pgdata:/var/lib/postgresql/data
 
+  create-dbs:
+    image: postgres:16
+    depends_on:
+      - postgres
+    volumes:
+      - ./scripts:/scripts
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_MULTIPLE_DATABASES: pose_static,pose_forward_trot
+    entrypoint: ["/bin/bash", "/scripts/init-multiple-db.sh"]
+
   pgadmin:
     image: dpage/pgadmin4
     container_name: my-pgadmin

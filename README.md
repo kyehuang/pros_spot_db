@@ -18,6 +18,24 @@ The database will start in the background with the following default settings:
 - Password: `mypassword`
 - Database: `mydatabase`
 
+## 🧠 Multiple Databases Support
+
+This project uses two separate PostgreSQL databases to separate different types of robot state data:
+
+|Database Name	|Purpose|
+|-|-|
+|pose_static|	Stores static poses of the robot (e.g., standing, crouching)|
+|pose_forward|	Stores forward movement poses (e.g., walking trajectories)|
+
+These databases are automatically created using a startup script (`init-multiple-db.sh`) included in the 'Docker Compose' setup.
+You can switch between the two databases when initializing the `AsyncSpotGraphDB` in Python:
+```
+# Static pose database
+db_static = AsyncSpotGraphDB("postgresql+asyncpg://myuser:mypassword@localhost:5432/pose_static")
+
+# Forward motion database
+db_forward = AsyncSpotGraphDB("postgresql+asyncpg://myuser:mypassword@localhost:5432/pose_forward_trot")
+```
 ## 🗃️ Table Structure
 
 By default, the database includes a single main table:
