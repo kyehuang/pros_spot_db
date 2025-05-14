@@ -19,7 +19,7 @@ fi
 # Create databases
 for db in $(echo "$POSTGRES_MULTIPLE_DATABASES" | tr ',' ' '); do
   echo "[INFO] Creating database: $db"
-  PGPASSWORD="$POSTGRES_PASSWORD" psql -h postgres -U "$POSTGRES_USER" -d postgres <<-EOSQL
+  PGPASSWORD="$POSTGRES_PASSWORD" psql -h postgres -U "$POSTGRES_USER" -d "$POSTGRES_DB" <<-EOSQL
     SELECT 'CREATE DATABASE "$db"' WHERE NOT EXISTS (
       SELECT FROM pg_database WHERE datname = '$db'
     )\gexec
